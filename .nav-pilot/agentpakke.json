@@ -1,0 +1,19 @@
+{
+  "contractVersion": "1",
+  "name": "watson-agentpakke",
+  "description": "Team Holmes / Watson-portefølje: vaktmester-agenten og domenespesifikke skills (analytics-taxonomy, explain-diff-html, repo-activity-research, unleash-feature-toggle, watson-setup) pluss auto-format-extensionen. Bygger videre på navikt/copilot sin nav-pilot-pakke via .nav-pilot/agentpakke.lock.json.",
+  "owner": {
+    "repo": "navikt/watson-agentpakke",
+    "team": "Team Holmes"
+  },
+  "clients": {
+    "copilot": {},
+    "opencode": {},
+    "pi": {}
+  },
+  "layout": {
+    "agents": "agents",
+    "skills": "skills",
+    "extensions": "extensions"
+  }
+}
