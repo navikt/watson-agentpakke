@@ -14,6 +14,7 @@
   "layout": {
     "agents": "agents",
     "skills": "skills",
+    "instructions": "instructions",
     "extensions": "extensions"
   }
 }
