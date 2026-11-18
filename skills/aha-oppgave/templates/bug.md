@@ -29,6 +29,9 @@ _Hvem rammes, hvor ofte, og finnes det en omvei?_
 - **Gitt** <utgangspunkt>, **når** <handling>, **så** <riktig resultat>
 - En test fanger feilen, slik at den ikke kommer tilbake.
 
+## Utenfor scope
+- _Hva vi bevisst ikke retter i denne oppgaven, for eksempel tilgrensende feil._
+
 ## Åpne spørsmål
 - _Det vi ikke vet ennå. Skriv «Ingen» når alt er avklart._
 

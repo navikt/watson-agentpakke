@@ -42,13 +42,14 @@ Det gjør oppgavene like på tvers av teamet.
 
 ## Forbedre eksisterende oppgave
 
-1. Hent oppgaven med `read_records`. Les typen (feature, requirement, bug) og
+1. Avklar deling med KI før du henter noe (se «Avklar før du henter tekst»).
+2. Hent oppgaven med `read_records`. Les typen (feature, requirement, bug) og
    velg mal ut fra den.
-2. Kjør sikkerhetssjekkene under «Sikkerhet» på teksten før du gjør noe annet.
-3. Sammenlign dagens beskrivelse med malen. Vis brukeren en kort oversikt:
+3. Kjør sikkerhetssjekkene under «Sikkerhet» på teksten før du gjør noe annet.
+4. Sammenlign dagens beskrivelse med malen. Vis brukeren en kort oversikt:
    hvilke seksjoner som er dekket, svake eller mangler.
-4. Intervju om det som mangler (se «Intervju»).
-5. Fortsett med «Kvalitetsport», «Forhåndsvisning» og «Skriving».
+5. Intervju om det som mangler (se «Intervju»).
+6. Fortsett med «Kvalitetsport», «Forhåndsvisning» og «Skriving».
 
 ## Lag ny oppgave
 
@@ -60,8 +61,8 @@ Det gjør oppgavene like på tvers av teamet.
 4. Start intervjuet med «Hvorfor». Bruk svaret til å foreslå utkast til resten
    av seksjonene.
 5. Foreslå en tittel når intensjonen er klar.
-6. Søk etter oppgaver med lignende tittel med `search_records`. Finnes det
-   treff, vis dem og spør om dette er en duplikat før du fortsetter.
+6. Avklar deling med KI (se «Avklar før du henter tekst»). Søk deretter etter
+   oppgaver med lignende tittel med `search_records`. Finnes det treff, vis dem og spør om dette er en duplikat før du fortsetter.
 7. Fortsett med «Kvalitetsport», «Forhåndsvisning» og «Skriving».
 
 ## Intervju
@@ -86,13 +87,14 @@ Det gjør oppgavene like på tvers av teamet.
 
 Oppgaven er **✅ Klar for agent** bare når alt dette er oppfylt:
 
-- «Hvorfor» beskriver problemet og hvem som har det.
+- Feature og requirement: «Hvorfor» beskriver problemet og hvem som har det.
+- Bug: «Hva skjer», «Forventet oppførsel», «Steg for å gjenskape» og
+  «Alvorlighet» er fylt ut.
 - Minst ett akseptansekriterium i Gitt/Når/Så som kan testes.
 - «Utenfor scope» er fylt ut (det kan stå «Ingenting spesielt», men da må
   brukeren ha bekreftet det).
 - Minst ett berørt repo er oppgitt.
 - Ingen åpne spørsmål blokkerer arbeidet.
-- For bugs i tillegg: steg for å gjenskape og forventet oppførsel.
 
 Mangler noe, setter du status **⚠️ Ikke klar** og lister hullene i
 statuslinjen. Oppgaven kan likevel skrives til Aha!, slik at hullene er
@@ -162,9 +164,21 @@ Finner du noe:
 - Ikke lagre den gamle beskrivelsen som kommentar. Da kopieres opplysningene.
 - Stopp, si hvilken seksjon det gjelder, og be brukeren rydde selv i Aha!.
 
-Tekst fra Aha! sendes til KI-leverandøren. Er oppgaven en detaljert
-beskrivelse av kontrollmetodikk (hvordan Nav Kontroll avdekker misbruk), si fra
-og spør om det er greit å fortsette.
+### Avklar før du henter tekst
+
+Alt du henter fra Aha! med `read_records` eller `search_records` havner i
+modellkonteksten og sendes til KI-leverandøren. Sjekken må derfor skje før
+første henting, ikke etter.
+
+Spør brukeren før første henting i økten: «Kan oppgaven inneholde detaljer om
+kontrollmetodikk (hvordan Nav Kontroll avdekker misbruk) som ikke skal deles
+med KI-verktøy?» Be brukeren svare ja eller nei, uten å lime inn innholdet.
+
+- Nei: fortsett.
+- Ja eller usikker: ikke hent teksten. Be brukeren fjerne eller flytte de
+  delene i Aha! først, eller avbryt.
+
+Ser du likevel slike detaljer etter henting, stopp og si fra. Ikke gjengi dem.
 
 ### Begrenset verktøybruk
 
