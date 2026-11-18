@@ -9,6 +9,7 @@ Agentpakke for Team Holmes / Watson-porteføljen. Distribueres til nav-pilot med
 | --------- | ------------------------------------------------------------------------------ |
 | agent     | `vaktmester` — rullerende ukentlig vakt for Holmes-teamet                       |
 | agent     | `nav-pilot` — lokal skygge av upstream-agenten med Holmes-tilpasninger           |
+| skill     | `aha-oppgave` — gjør Aha!-oppgaver klare for nav-pilot med intervju og felles mal |
 | skill     | `analytics-taxonomy` — Nav analytics-taksonomi (Umami)                          |
 | skill     | `explain-diff-html` — forklar en kodeendring/diff/PR som HTML                   |
 | skill     | `repo-activity-research` — oppsummer endringer i Watson-repoene                 |
