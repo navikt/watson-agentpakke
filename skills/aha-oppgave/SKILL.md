@@ -1,6 +1,6 @@
 ---
 name: aha-oppgave
-description: Gjør en Aha!-oppgave klar for nav-pilot. Forbedrer en eksisterende feature, requirement eller bug, eller lager en ny fra scratch, ved å intervjue brukeren og fylle ut en felles mal med intensjon, akseptansekriterier og scope. Bruk når noen gir en Aha!-referanse (for eksempel TH-123) eller vil skrive en ny oppgave.
+description: Gjør en Aha!-oppgave klar for nav-pilot. Forbedrer en eksisterende feature, requirement eller bug, eller lager en ny fra scratch, ved å intervjue produktleder, designer eller utvikler om deres deler og fylle ut en felles mal med intensjon, akseptansekriterier og scope. Bruk når noen gir en Aha!-referanse (for eksempel TH-123) eller vil skrive en ny oppgave.
 license: MIT
 compatibility: Aha! MCP (io_aha_aha-mcp), Holmes-porteføljen
 metadata:
@@ -14,8 +14,9 @@ Skillen gjør en Aha!-oppgave så tydelig at nav-pilot kan løse den uten å gje
 Den intervjuer brukeren, fyller ut en fast mal og skriver resultatet til Aha!
 etter bekreftelse.
 
-Alle kan bruke skillen: PO, designer og utvikler. Still spørsmål på vanlig
-språk. Gå bare i teknisk detalj når svaret krever det.
+Produktledere, designere og utviklere bruker skillen. Hver rolle fyller ut sine
+deler av oppgaven, ofte i hver sin økt. Skillen finner ut hvilken rolle
+brukeren har, og spør om det den rollen vet best (se «Roller»).
 
 ## Konfigurasjon
 
@@ -32,6 +33,53 @@ språk. Gå bare i teknisk detalj når svaret krever det.
 Følg malen nøyaktig. Samme seksjoner, samme rekkefølge, samme overskrifter.
 Det gjør oppgavene like på tvers av teamet.
 
+## Roller
+
+Avklar rollen før intervjuet starter. Har brukeren sagt det («jeg er designer»),
+bruk det. Ellers spør: «Er du produktleder, designer eller utvikler?» Gjett
+aldri ut fra navn eller tidligere økter.
+
+### Hvem eier hvilke seksjoner
+
+| Seksjon | Eier | Bidrar |
+|---|---|---|
+| Hvorfor | Produktleder | |
+| Hva | Produktleder | Designer |
+| Design | Designer | |
+| Akseptansekriterier | Produktleder | Designer (brukerflyt, tilstander), utvikler (testbarhet) |
+| Utenfor scope | Produktleder | Alle |
+| Berørte repoer og avhengigheter | Utvikler | |
+| Bug: Hva skjer, Forventet oppførsel, Steg for å gjenskape | Den som fant feilen | Alle |
+| Bug: Alvorlighet | Produktleder | |
+| Bug: Miljø og repo | Utvikler | |
+| Åpne spørsmål | Alle | |
+| Brief til nav-pilot | Settes sammen av skillen | Utvikler bekrefter repoene |
+
+### Spørsmål per rolle
+
+- **Produktleder:** problemet og hvem som har det, verdien av å løse det, hva
+  som skal til for at oppgaven er ferdig, hva som er utenfor scope, prioritet og
+  alvorlighet. Ingen tekniske spørsmål.
+- **Designer:** brukerflyt, lenke til Figma, tilstander (tom, lasting, feil,
+  ingen tilgang), tekster brukeren ser, universell utforming, og hvilke
+  akseptansekriterier som beskriver opplevelsen.
+- **Utvikler:** berørte repoer og andre team, tekniske begrensninger,
+  datamodell og API, tilgangskontroll og persondata, om akseptansekriteriene kan
+  testes, og hvordan en bug gjenskapes.
+
+### Slik jobber du med roller
+
+- Start med seksjonene rollen eier. Tilby deretter å bidra der rollen står
+  under «Bidrar».
+- Spør ikke om seksjoner som tilhører en annen rolle. Har brukeren lyst til å
+  fylle dem ut, la dem gjøre det.
+- Rollen bestemmer ordlyden. Et spørsmål til en produktleder handler om
+  behov, til en utvikler om teknikk.
+- Et tomt felt som en annen rolle eier, er ikke en feil. Merk det som «Venter
+  på <rolle>».
+- Endre aldri innhold en annen rolle har skrevet uten å spørre. Ny detalj legges
+  til, og forhåndsvisningen viser hva som er endret.
+
 ## Velg modus
 
 - **Brukeren gir en referanse** (for eksempel `TH-123`): gå til
@@ -47,8 +95,10 @@ Det gjør oppgavene like på tvers av teamet.
    velg mal ut fra den.
 3. Kjør sikkerhetssjekkene under «Sikkerhet» på teksten før du gjør noe annet.
 4. Sammenlign dagens beskrivelse med malen. Vis brukeren en kort oversikt:
-   hvilke seksjoner som er dekket, svake eller mangler.
-5. Intervju om det som mangler (se «Intervju»).
+   hvilke seksjoner som er dekket, svake eller mangler, og hvilken rolle som
+   eier hver av dem.
+5. Intervju om det som mangler i seksjonene rollen eier, og tilby å legge til
+   detaljer i resten (se «Intervju» og «Roller»).
 6. Fortsett med «Kvalitetsport», «Forhåndsvisning» og «Skriving».
 
 ## Lag ny oppgave
@@ -58,8 +108,9 @@ Det gjør oppgavene like på tvers av teamet.
    brukeren bekrefte produktet. Gjett aldri ut fra fritekst.
 3. Spør om release eller epic. En requirement trenger en feature som forelder:
    spør om referansen.
-4. Start intervjuet med «Hvorfor». Bruk svaret til å foreslå utkast til resten
-   av seksjonene.
+4. Start med «Hvorfor», uansett rolle. Er brukeren ikke produktleder, merk
+   svaret som utkast som produktlederen bekrefter. Fortsett med seksjonene
+   rollen eier.
 5. Foreslå en tittel når intensjonen er klar.
 6. Avklar deling med KI (se «Avklar før du henter tekst»). Søk deretter etter
    oppgaver med lignende tittel med `search_records`. Finnes det treff, vis dem og spør om dette er en duplikat før du fortsetter.
@@ -70,7 +121,9 @@ Det gjør oppgavene like på tvers av teamet.
 - Still ett eller to spørsmål om gangen.
 - Foreslå et svar når du har grunnlag for det, og la brukeren rette det. Det er
   raskere å korrigere enn å skrive fra bunnen.
-- Begynn med «Hvorfor». Uten intensjon blir resten gjetting.
+- Les «Hvorfor» før du spør om noe annet. Uten intensjon blir resten
+  gjetting. Mangler den og brukeren ikke er produktleder, be om et kort utkast
+  eller merk den «Venter på produktleder».
 - Skriv akseptansekriterier som Gitt/Når/Så. De må kunne testes. Er et
   kriterium vagt («det skal være raskt»), spør hva som måles.
 - Spør alltid om hva som er utenfor scope. Det hindrer at nav-pilot gjør for
@@ -94,10 +147,13 @@ Oppgaven er **✅ Klar for agent** bare når alt dette er oppfylt:
 - «Utenfor scope» er fylt ut (det kan stå «Ingenting spesielt», men da må
   brukeren ha bekreftet det).
 - Minst ett berørt repo er oppgitt.
+- Feature og requirement som endrer brukergrensesnitt: «Design» er fylt ut.
+  Endrer de ikke brukergrensesnitt, står det «Ikke relevant».
 - Ingen åpne spørsmål blokkerer arbeidet.
 
 Mangler noe, setter du status **⚠️ Ikke klar** og lister hullene i
-statuslinjen. Oppgaven kan likevel skrives til Aha!, slik at hullene er
+statuslinjen, gruppert etter rolle. For eksempel: «⚠️ Ikke klar: venter på
+designer (Design), utvikler (Berørte repoer)». Oppgaven kan likevel skrives til Aha!, slik at hullene er
 synlige for teamet.
 
 ## Forhåndsvisning
@@ -119,7 +175,7 @@ tydelig ja betyr at du ikke skriver.
    leste den første gang, stopp og si fra. Ikke overskriv.
 2. Lagre den gamle beskrivelsen som kommentar med `add_comment`. Start
    kommentaren med «Forrige beskrivelse, lagret av aha-oppgave-skill
-   <dato>». Feiler dette, avbryt uten å oppdatere.
+   <dato> (<rolle>)». Feiler dette, avbryt uten å oppdatere.
 3. Oppdater beskrivelsen med `manage_record`. Endre bare beskrivelsen.
 4. Les oppgaven igjen og bekreft at den nye beskrivelsen ligger der.
 

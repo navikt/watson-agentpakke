@@ -12,6 +12,12 @@ _Hvilket problem løser vi, og hvem har det? Hva skjer hvis vi lar være?_
 ## Hva
 _Kort beskrivelse av løsningen. Hva brukeren kan gjøre etterpå som de ikke kan i dag._
 
+## Design
+- **Figma:** <lenke, eller «Ikke relevant» hvis oppgaven ikke endrer brukergrensesnitt>
+- **Brukerflyt:** _Stegene brukeren går gjennom._
+- **Tilstander:** _Tom, lasting, feil, ingen tilgang._
+- **Universell utforming:** _Særlige hensyn._
+
 ## Akseptansekriterier
 - **Gitt** <utgangspunkt>, **når** <handling>, **så** <resultat som kan testes>
 - **Gitt** …, **når** …, **så** …
@@ -22,6 +28,7 @@ _Kort beskrivelse av løsningen. Hva brukeren kan gjøre etterpå som de ikke ka
 ## Berørte repoer og avhengigheter
 - **Repoer:** <for eksempel watson-sak-frontend, watson-admin-api>
 - **Andre team:** <ingen / hvilke og hvorfor>
+- **Tekniske notater:** _Begrensninger, datamodell, API._
 
 ## Åpne spørsmål
 - _Det vi ikke vet ennå. Skriv «Ingen» når alt er avklart._
