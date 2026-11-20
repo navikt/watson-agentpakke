@@ -69,8 +69,9 @@ steg feiler, vis feilen tydelig og foreslå løsning før du fortsetter.
 
 Skriptet installerer `cplt` og `nav-pilot`, detekterer node version manager og
 genererer cplt-konfigurasjon med lesetilgang til Gradle-credentials og
-skrivetilgang til prosjektet og repoene. Det konfigurerer også MCP-serverne
-`com.figma/figma-mcp` og `com.jetbrains/intellij` i Copilot CLI. Sandboxen får bevisst ikke
+skrivetilgang til prosjektet og repoene. MCP-serverne i `mcp-servere.txt`
+settes opp av `bootstrap.sh` og `./sync.sh`, ikke her. Mangler noen, be
+brukeren kjøre `./scripts/setup-mcp.sh` i en vanlig terminal. Sandboxen får bevisst ikke
 lesetilgang til `~/.kube/config` (inneholder cluster-admin-credentials) —
 kjør `kubectl`/`tilt` direkte i terminalen utenfor sandboxen, eller legg til
 tilgangen selv hvis du ønsker det.
