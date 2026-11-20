@@ -31,13 +31,16 @@ Brukeren kloner watson-developer og kjører bootstrap-skriptet i en vanlig
 terminal før skillen startes:
 
 ```bash
+xcode-select --install   # bare på helt ny Mac, vent til installasjonen er ferdig
 git clone https://github.com/navikt/watson-developer.git
 cd watson-developer
 ./scripts/bootstrap.sh
 ```
 
-Skriptet installerer Xcode Command Line Tools, Homebrew, git, gh og
-agenten brukeren velger (opencode er standard), logger inn med `gh` og starter agenten i repoet. Kjører du
+Uten Xcode Command Line Tools åpner `git clone` en installasjonsdialog i
+stedet for å klone. Skriptet installerer Homebrew, git, gh og agenten
+brukeren velger (opencode er standard), logger inn med `gh` og starter
+agenten med `nav-pilot --client <agent>`, slik at skillene er tilgjengelige. Kjører du
 allerede som agent i repoet, er steg 0 gjort.
 
 ## Instruksjoner til agenten
