@@ -21,23 +21,24 @@ utvikleren.
 - GitHub-tilgang til navikt-repoene
 - Skillen kjøres fra watson-developer-repoets rotkatalog
 
-Alt annet (Xcode Command Line Tools, Homebrew, git, gh, Docker Desktop,
-Copilot CLI, cplt, nav-pilot, Python, Java, Node, pnpm, kind, tilt, kubectl)
+Alt annet (Xcode Command Line Tools, Homebrew, git, gh, opencode, Docker
+Desktop, cplt, nav-pilot, Python, Java, Node, pnpm, kind, tilt, kubectl)
 installeres av `scripts/bootstrap.sh` og `scripts/doctor.sh`.
 
 ## Steg 0: Helt ny Mac
 
-Har maskinen ikke Homebrew, git eller Copilot CLI, kan ikke skillen kjøres
-ennå. Be brukeren kjøre dette i en vanlig terminal (ikke i Copilot):
+Brukeren kloner watson-developer og kjører bootstrap-skriptet i en vanlig
+terminal før skillen startes:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/navikt/watson-developer/main/scripts/bootstrap.sh)"
+git clone https://github.com/navikt/watson-developer.git
+cd watson-developer
+./scripts/bootstrap.sh
 ```
 
-Skriptet installerer Xcode Command Line Tools og Homebrew, logger inn med
-`gh`, kloner watson-developer og kjører `doctor.sh` og `setup-copilot.sh`.
-Deretter starter brukeren `copilot` i repoet og ber om skillen `watson-setup`.
-Kjører du allerede som agent i repoet, er steg 0 gjort.
+Skriptet installerer Xcode Command Line Tools, Homebrew, git, gh og
+opencode 2, logger inn med `gh` og starter opencode i repoet. Kjører du
+allerede som agent i repoet, er steg 0 gjort.
 
 ## Instruksjoner til agenten
 
@@ -79,7 +80,7 @@ tilgangen selv hvis du ønsker det.
 **Hvis det feiler:**
 
 - `Homebrew er ikke installert` → Be brukeren kjøre bootstrap-skriptet fra
-  steg 0 i en vanlig terminal.
+  steg 0 (`./scripts/bootstrap.sh`) i en vanlig terminal.
 - `Dette scriptet støtter kun macOS` → Skillen støtter bare macOS.
 - `python3 er ikke installert` eller `python3 … er for gammel` → Scriptet
   prøver å installere `python@3.12` automatisk med Homebrew (kreves for
