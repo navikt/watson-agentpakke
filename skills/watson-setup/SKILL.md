@@ -2,7 +2,7 @@
 name: watson-setup
 description: Sett opp watson-developer lokalmiljø fra scratch — installerer verktøy, kloner repoer og oppretter kind-kluster
 license: MIT
-compatibility: macOS with Homebrew
+compatibility: macOS (fra helt ny maskin via scripts/bootstrap.sh)
 metadata:
   domain: onboarding
   tags: setup onboarding watson lokalmiljø kind tilt
@@ -18,11 +18,26 @@ utvikleren.
 ## Forutsetninger
 
 - macOS
-- Homebrew installert
-- Docker Desktop installert og kjørende
-- Python 3.11+ (`brew install python@3.12`) — kreves for `tomllib` i steg 1
 - GitHub-tilgang til navikt-repoene
 - Skillen kjøres fra watson-developer-repoets rotkatalog
+
+Alt annet (Xcode Command Line Tools, Homebrew, git, gh, Docker Desktop,
+Copilot CLI, cplt, nav-pilot, Python, Java, Node, pnpm, kind, tilt, kubectl)
+installeres av `scripts/bootstrap.sh` og `scripts/doctor.sh`.
+
+## Steg 0: Helt ny Mac
+
+Har maskinen ikke Homebrew, git eller Copilot CLI, kan ikke skillen kjøres
+ennå. Be brukeren kjøre dette i en vanlig terminal (ikke i Copilot):
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/navikt/watson-developer/main/scripts/bootstrap.sh)"
+```
+
+Skriptet installerer Xcode Command Line Tools og Homebrew, logger inn med
+`gh`, kloner watson-developer og kjører `doctor.sh` og `setup-copilot.sh`.
+Deretter starter brukeren `copilot` i repoet og ber om skillen `watson-setup`.
+Kjører du allerede som agent i repoet, er steg 0 gjort.
 
 ## Instruksjoner til agenten
 
@@ -63,7 +78,8 @@ tilgangen selv hvis du ønsker det.
 
 **Hvis det feiler:**
 
-- `Homebrew er ikke installert` → Se https://brew.sh.
+- `Homebrew er ikke installert` → Be brukeren kjøre bootstrap-skriptet fra
+  steg 0 i en vanlig terminal.
 - `Dette scriptet støtter kun macOS` → Skillen støtter bare macOS.
 - `python3 er ikke installert` eller `python3 … er for gammel` → Scriptet
   prøver å installere `python@3.12` automatisk med Homebrew (kreves for
@@ -87,8 +103,11 @@ ny økt kjører skriptet på nytt uten dette varselet.
 **Forventet resultat:** `✅ Alt er på plass`.
 
 Utenfor cplt-sandboxen installerer skriptet manglende verktøy automatisk via
-Homebrew der det er mulig (kind, tilt, kubectl, gcloud, k9s, java, node,
-pnpm, python). **Kjører denne skillen inni cplt-sandboxen** (som er det
+Homebrew der det er mulig (git, gh, Docker Desktop, Copilot CLI, cplt,
+nav-pilot, kind, tilt, kubectl, gcloud, k9s, java, node, pnpm, python).
+Xcode Command Line Tools og Homebrew selv installeres ikke av doctor, de
+kommer fra bootstrap-skriptet. Doctor sjekker også at `gh` er innlogget og at
+Docker kjører. **Kjører denne skillen inni cplt-sandboxen** (som er det
 vanlige), **skjer ingen auto-installasjon** — Homebrew skriver til
 `/opt/homebrew`/`/usr/local`, utenfor det sandboxen har skrivetilgang til.
 Skriptet varsler om dette og lister opp hva som mangler; be brukeren
