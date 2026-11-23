@@ -29,15 +29,15 @@ samme navn.
 Når upstream har flere elementer med samme navn, beholder kartet `accessibility`
 som instruksjon, `kafka` som agent og `security-owasp` som instruksjon.
 
-For å oppdatere til en nyere revisjon av `navikt/copilot`, oppdater SHA i lockfila.
-Synkroniser `items`-kartet mot upstream uten å miste Watson-elementene, og gå gjennom
-de to skyggefilene mot samme commit. Gjennomfør dette manuelt. Repoet har ingen
-CI for basisoppdateringer.
+Workflowen `.github/workflows/update-base-agentpakke.yml` sjekker etter nye revisjoner
+av `navikt/copilot` hver mandag og kan også startes manuelt. Den henter SHA for `main`,
+kjører `nav-pilot list` mot den eksakte revisjonen og oppdaterer lockfilas arvede
+elementer. Watson-elementer som finnes i pakka, blir beholdt.
 
-```bash
-gh api repos/navikt/copilot/commits/main --jq .sha
-nav-pilot list --source navikt/copilot --items --json
-```
+Workflowen åpner eller oppdaterer en pull request med SHA-en og en liste over endrede
+elementer. Den merger ikke automatisk. Gå gjennom `agents/nav-pilot.agent.md` og
+`instructions/output-style.instructions.md` mot den nye revisjonen før merge. De
+skygger elementer fra upstream med samme navn.
 
 ## Installere i et repo
 

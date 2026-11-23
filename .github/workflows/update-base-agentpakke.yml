@@ -1,0 +1,72 @@
+name: Update base agentpakke
+
+on:
+  schedule:
+    - cron: "15 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-base-agentpakke
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Fetch latest base SHA
+        id: base
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          sha="$(gh api repos/navikt/copilot/commits/main --jq .sha)"
+          if [[ ! "$sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "GitHub API returnerte ikke en full commit-SHA" >&2
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Install nav-pilot at the fetched revision
+        run: |
+          set -euo pipefail
+          go install "github.com/navikt/copilot/cli/nav-pilot@${{ steps.base.outputs.sha }}"
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Update lockfile and summarize item changes
+        run: >-
+          python3 scripts/update-base-agentpakke.py
+          --ref "${{ steps.base.outputs.sha }}"
+          --summary-file "$RUNNER_TEMP/base-agentpakke-diff.md"
+
+      - name: Create or update pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_BRANCH: ${{ github.event.repository.default_branch }}
+          BASE_SHA: ${{ steps.base.outputs.sha }}
+        run: |
+          set -euo pipefail
+          branch="chore/update-base-agentpakke-${BASE_SHA:0:12}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "Lockfila er allerede oppdatert til $BASE_SHA"
+            exit 0
+          fi
+
+          git switch -c "$branch"
+          git add .nav-pilot/agentpakke.lock.json
+          git commit -m "chore: update base agentpakke to ${BASE_SHA:0:12}"
+          git push origin "$branch"
+
+          title="chore: update base agentpakke to ${BASE_SHA:0:12}"
+          body="$(cat "$RUNNER_TEMP/base-agentpakke-diff.md")"
+          gh pr create --base "$BASE_BRANCH" --head "$branch" --title "$title" --body "$body"
