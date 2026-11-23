@@ -2,7 +2,7 @@ name: Update base agentpakke
 
 on:
   schedule:
-    - cron: "15 6 * * 1"
+    - cron: "15 2 * * *"
   workflow_dispatch:
 
 permissions:
@@ -54,7 +54,7 @@ jobs:
           BASE_SHA: ${{ steps.base.outputs.sha }}
         run: |
           set -euo pipefail
-          branch="chore/update-base-agentpakke-${BASE_SHA:0:12}"
+          branch="chore/update-base-agentpakke"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if git diff --quiet; then
@@ -65,8 +65,12 @@ jobs:
           git switch -c "$branch"
           git add .nav-pilot/agentpakke.lock.json
           git commit -m "chore: update base agentpakke to ${BASE_SHA:0:12}"
-          git push origin "$branch"
+          git push --force-with-lease origin "$branch"
 
           title="chore: update base agentpakke to ${BASE_SHA:0:12}"
           body="$(cat "$RUNNER_TEMP/base-agentpakke-diff.md")"
-          gh pr create --base "$BASE_BRANCH" --head "$branch" --title "$title" --body "$body"
+          if gh pr view "$branch" --json number >/dev/null 2>&1; then
+            gh pr edit "$branch" --base "$BASE_BRANCH" --title "$title" --body "$body"
+          else
+            gh pr create --base "$BASE_BRANCH" --head "$branch" --title "$title" --body "$body"
+          fi

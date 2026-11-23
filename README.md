@@ -29,8 +29,8 @@ samme navn.
 Når upstream har flere elementer med samme navn, beholder kartet `accessibility`
 som instruksjon, `kafka` som agent og `security-owasp` som instruksjon.
 
-Workflowen `.github/workflows/update-base-agentpakke.yml` sjekker etter nye revisjoner
-av `navikt/copilot` hver mandag og kan også startes manuelt. Den henter SHA for `main`,
+Workflowen `.github/workflows/update-base-agentpakke.yml` sjekker nattlig etter nye
+revisjoner av `navikt/copilot` og kan også startes manuelt. Den henter SHA for `main`,
 kjører `nav-pilot list` mot den eksakte revisjonen og oppdaterer lockfilas arvede
 elementer. Watson-elementer som finnes i pakka, blir beholdt.
 
