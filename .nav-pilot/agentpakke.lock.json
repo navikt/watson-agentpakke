@@ -1,7 +1,7 @@
 {
   "contractVersion": "1",
   "source": "navikt/copilot",
-  "sha": "30bf7cf17d1998908701e9a7c21700ab6192990a",
+  "sha": "24c7be23b9e247a1b18f920f60b39d9e46051481",
   "items": {
     "accessibility": "instruction",
     "aha-oppgave": "skill",
@@ -38,6 +38,7 @@
     "kotlin-app-config": "skill",
     "ktor-endpoint": "prompt",
     "ktor-scaffold": "skill",
+    "mcp-server-authoring": "skill",
     "nais": "skill",
     "nais-manifest": "prompt",
     "nav-architecture-review": "skill",
