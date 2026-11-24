@@ -22,52 +22,51 @@ jobs:
         with:
           ref: ${{ github.event.repository.default_branch }}
 
-      - name: Fetch latest base SHA
-        id: base
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Install nav-pilot
         run: |
           set -euo pipefail
-          sha="$(gh api repos/navikt/copilot/commits/main --jq .sha)"
-          if [[ ! "$sha" =~ ^[0-9a-f]{40}$ ]]; then
-            echo "GitHub API returnerte ikke en full commit-SHA" >&2
-            exit 1
-          fi
-          echo "sha=$sha" >> "$GITHUB_OUTPUT"
-
-      - name: Install nav-pilot at the fetched revision
-        run: |
-          set -euo pipefail
-          go install "github.com/navikt/copilot/cli/nav-pilot@${{ steps.base.outputs.sha }}"
+          go install github.com/navikt/copilot/cli/nav-pilot@latest
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
 
-      - name: Update lockfile and summarize item changes
-        run: >-
-          python3 scripts/update-base-agentpakke.py
-          --ref "${{ steps.base.outputs.sha }}"
-          --summary-file "$RUNNER_TEMP/base-agentpakke-diff.md"
+      - name: Select pull request branch
+        env:
+          BASE_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+          branch="chore/update-base-agentpakke"
+          git fetch origin "$branch" || true
+          if git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+            git switch -c "$branch" --track "origin/$branch"
+            git rebase "origin/$BASE_BRANCH"
+          else
+            git switch -c "$branch"
+          fi
+
+      - name: Bump base
+        run: |
+          set -euo pipefail
+          nav-pilot pakke bump-base --target "$GITHUB_WORKSPACE" \
+            > "$RUNNER_TEMP/base-agentpakke-diff.md"
 
       - name: Create or update pull request
         env:
           GH_TOKEN: ${{ github.token }}
           BASE_BRANCH: ${{ github.event.repository.default_branch }}
-          BASE_SHA: ${{ steps.base.outputs.sha }}
         run: |
           set -euo pipefail
           branch="chore/update-base-agentpakke"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if git diff --quiet; then
-            echo "Lockfila er allerede oppdatert til $BASE_SHA"
+            echo "Lockfila er allerede oppdatert"
             exit 0
           fi
 
-          git switch -c "$branch"
           git add .nav-pilot/agentpakke.lock.json
-          git commit -m "chore: update base agentpakke to ${BASE_SHA:0:12}"
+          git commit -m "chore: bump base agentpakke"
           git push --force-with-lease origin "$branch"
 
-          title="chore: update base agentpakke to ${BASE_SHA:0:12}"
+          title="chore: bump base agentpakke"
           body="$(cat "$RUNNER_TEMP/base-agentpakke-diff.md")"
           if gh pr view "$branch" --json number >/dev/null 2>&1; then
             gh pr edit "$branch" --base "$BASE_BRANCH" --title "$title" --body "$body"
